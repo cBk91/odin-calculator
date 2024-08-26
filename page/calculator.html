@@ -5,10 +5,45 @@
         <script src="../js/calculator.js" defer></script>
         <link rel="stylesheet" href="../css/calculator.css">
     </head>
-    <body>
-        <div id="container" class="flex">
-            
-            
+    <body class="cadetblue">
+        <div id="container" class="flex center">
+            <div id="calculator" class="flex flex_column border_solid item_center">
+                <div id="display" class="border_solid dark_grey">
+                  
+                </div>
+                <div id="keypad" class="flex flex_column">
+                    <div class="flex flex_row space_evenly">
+                        <div class="button border_solid flex align_items_center center blue">C</div>
+                        <div class="button border_solid flex align_items_center center blue">+/-</div>
+                        <div class="button border_solid flex align_items_center center blue">%</div>
+                        <div class="button border_solid flex align_items_center center orange">/</div>
+                    </div>
+                    <div class="flex flex_row space_evenly">
+                        <div class="button border_solid flex dark_grey">7</div>
+                        <div class="button border_solid flex dark_grey">8</div>
+                        <div class="button border_solid flex dark_grey">9</div>
+                        <div class="button border_solid flex orange">*</div>
+                    </div>
+                    <div class="flex flex_row space_evenly">
+                        <div class="button border_solid flex  dark_grey">4</div>
+                        <div class="button border_solid flex  dark_grey">5</div>
+                        <div class="button border_solid flex  dark_grey">6</div>
+                        <div class="button border_solid flex  orange">-</div>
+                    </div>
+                    <div class="flex flex_row space_evenly">
+                        <div class="button border_solid flex dark_grey">1</div>
+                        <div class="button border_solid flex dark_grey">2</div>
+                        <div class="button border_solid flex dark_grey">3</div>
+                        <div class="button border_solid flex orange">+</div>
+                    </div>
+                    <div class="flex flex_row space_evenly">
+                        <div class="button border_solid flex dark_grey" style="flex-basis: 48%;">0</div>
+                        <div class="button border_solid flex dark_grey">.</div>
+                        <div class="button border_solid flex orange">=</div>                        
+                    </div>
+                    
+                </div>
+            </div>           
         </div>
     </body>
 </html>

@@ -1,3 +1,84 @@
 .flex{
     display: flex;
 }
+
+.center{
+    justify-content: center;
+}
+
+.space_evenly{
+    justify-content: space-around;
+}
+
+.cadetblue{
+    background-color: cadetblue;
+}
+
+.blue{
+    background-color: cornflowerblue;
+}
+
+.dark_grey{
+    background-color: darkgray;
+}
+
+.orange{
+    background-color: orange;
+}
+
+body{
+    margin-top: 5%;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.flex_row{
+    flex-direction: row;
+}
+.flex_column{
+    flex-direction: column;
+}
+.border_solid{
+    border-color: black;
+    border-width: 2px;
+    border-radius: 4px;
+    border-style: solid;
+}
+
+#calculator{
+    gap: 5px;
+    width: 400px;
+    height: 430px;
+    background-color: grey;
+    
+}
+
+#display{    
+    margin: 5%; 
+    margin-bottom: 1%;
+    text-align: right;
+    font-size: 45px;
+    min-height: 50px;
+}
+
+#keypad{   
+    gap: 5px;
+    margin: 3% 5% 5% 5%;
+    height: 80%;
+}
+
+.button{
+    width: 50px;
+    height: 50px;
+    flex-basis: 23%;
+    font-size: 40px;
+    align-items: center;
+    justify-content: center;
+
+    
+}
+
+.num_value{
+    
+}
+
+/* https://practicealways12.github.io/calculatorProject/ */
