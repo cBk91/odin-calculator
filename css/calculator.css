@@ -26,6 +26,11 @@
     background-color: orange;
 }
 
+.darkgoldenrod{
+    background-color: darkgoldenrod;
+}
+
+
 body{
     margin-top: 5%;
     font-family: 'Courier New', Courier, monospace;
@@ -72,13 +77,10 @@ body{
     flex-basis: 23%;
     font-size: 40px;
     align-items: center;
-    justify-content: center;
-
-    
+    justify-content: center; 
 }
 
-.num_value{
-    
+.button:active{
+    border-width: 1px;
 }
-
 /* https://practicealways12.github.io/calculatorProject/ */
