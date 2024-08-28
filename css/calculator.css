@@ -35,6 +35,9 @@ body{
     margin-top: 5%;
     font-family: 'Courier New', Courier, monospace;
 }
+.pressed{
+    background-color: red;
+}
 
 .flex_row{
     flex-direction: row;
