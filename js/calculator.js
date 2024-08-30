@@ -1,3 +1,5 @@
+//https://devmentor.pl/b/4-filary-programowania-obiektowego#powt%C3%B3rka-z-programowania-obiektowego
+
 
 function Display(querySelector){
 
@@ -28,9 +30,45 @@ function Display(querySelector){
       }
 
     this.getNumberFromScreen = function()  {
-        return this.screen.textContent;
+        return Number.parseFloat(this.screen.textContent);
     }
 }
+
+class Memory {
+
+    #memory;
+    #size;
+
+    constructor(size) {
+        this.#memory = [];
+        this.#size = size;
+    }
+
+    saveInMemory(number){
+        this.#memory.push(number);
+    }
+
+    clearMemory(){
+        this.#memory.length = 0;
+    }
+
+    doCalc(mathOperation){
+        return this.#memory.reduce(mathOperation);
+    }
+
+    isFull(){
+        return this.#memory.length === this.#size;
+    }
+
+    print(){
+        console.log(this.#memory.toString());
+        console.log(this.#memory.length === this.#size);
+    }
+
+}
+
+
+let wasSaved = false;
 
 function Keypad(numsQuerySelector,clearBtnQuerySelector){
     this.numberButtons = document.querySelectorAll(".num_value");
@@ -40,52 +78,50 @@ function Keypad(numsQuerySelector,clearBtnQuerySelector){
     this.initializeButtonsEvents = function(){
         this.clearButton.addEventListener("click",event =>{
             calcScreen.clearScreen();
+            memory.clearMemory();
         });
         this.numberButtons.forEach((button) => 
             button.addEventListener("click",(e) => {
+            if(wasSaved){
+                calcScreen.clearScreen();
+                wasSaved = false;
+            }
             calcScreen.appendCharacter(e.target.textContent);
         }));
 
         this.operandButtons.forEach((button) => 
-            button.addEventListener("click",event =>{          
-
-                if(operator === null){
-                    operator = event.target.textContent;
-                    firstOperand = calcScreen.getNumberFromScreen();
-                }
-                else if(operator != null){
-                    if(operator === event.target.textContent){
-                        console.log(calculate(operator,firstOperand,firstOperand));
-                    }else{
-                        secondOperand = calcScreen.getNumberFromScreen();
-                        console.log(calculate(operator,firstOperand,secondOperand));
-                    }
-                    operator = event.target.textContent;
-                }
-                console.log(firstOperand);
-                console.log(operator);
-                console.log(secondOperand);
+            button.addEventListener("click",event =>{                     
+            memory.saveInMemory(calcScreen.getNumberFromScreen());            
+            memory.print();
+            console.log(button.textContent);
+            if(memory.isFull){
+                let calc = calculate(button.textContent,memory);                
+                calcScreen.clearScreen();                
+                calcScreen.appendCharacter(calc);
+                memory.clearMemory();
+                memory.saveInMemory(calcScreen.getNumberFromScreen());                
+            }
+            wasSaved = true;
             }));
 
         this.equationButton.addEventListener("click",event =>{
+            
         });
     };
 
-    this.isOperandButtonPressed
+
 }
 
-let firstOperand = null;
-let secondOperand = null;
-let operator = null;
 
-function calculate(operator,firstOperand,secondOperand){
+
+function calculate(operator,memory){
 
     switch(operator) {
 
-        case "+": return +firstOperand + +secondOperand;
-        case "-": return +firstOperand - +secondOperand;
-        case "*": return +firstOperand * +secondOperand;
-        case "/": return +firstOperand / +secondOperand;
+        case "+": return memory.doCalc((a,b) => a+b,0);
+        case "-": return memory.doCalc((a,b) => a - b,0);
+        case "*": return memory.doCalc((a,b) => a * b,1);
+        case "/": return memory.doCalc((a,b) => a / b,1);
         //case "%": return firstOperand + secondOperand;
     }
 
@@ -94,6 +130,7 @@ function calculate(operator,firstOperand,secondOperand){
 
 let calcScreen = new Display("#display");
 let keypad = new Keypad(".num_value",".clr_button");
+let memory = new Memory(2);
 keypad.initializeButtonsEvents();
 
 let body = document.querySelector("body");
