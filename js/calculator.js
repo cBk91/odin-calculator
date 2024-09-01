@@ -19,21 +19,22 @@ function Display(querySelector){
         this.screen.textContent = "0";
     }  
 
-    this.isEmptySpace = function() {  
+    this.isEmptySpace = function() {          
         return this.screen.textContent.length < DISPLAY_LENGTH
     }
 
     this.isContainDot = function() {
         return this.screen.textContent.includes(".");
-    }
-
+    }    
 
     this.isNumber = function(value) {
         return !isNaN(parseFloat(value)) && isFinite(value);
       }
 
     this.getNumberFromScreen = function()  {
-        return Number.parseFloat(this.screen.textContent);
+        return Number.isInteger(this.screen.textContent)
+        ? this.screen.textContent
+        : Number.parseFloat(this.screen.textContent);
     }
 
     
@@ -89,7 +90,10 @@ function Keypad(numsQuerySelector,clearBtnQuerySelector){
     this.initializeButtonsEvents = function(){
 
         this.negateNumberButton.addEventListener("click",event =>{
-            
+            let num = calcScreen.getNumberFromScreen() * -1;
+            calcScreen.clearScreen();
+            calcScreen.appendCharacter(num);                            
+                            
         });
 
         this.clearButton.addEventListener("click",event =>{
