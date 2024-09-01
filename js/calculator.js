@@ -27,6 +27,7 @@ function Display(querySelector){
         return this.screen.textContent.includes(".");
     }
 
+
     this.isNumber = function(value) {
         return !isNaN(parseFloat(value)) && isFinite(value);
       }
@@ -120,7 +121,9 @@ function Keypad(numsQuerySelector,clearBtnQuerySelector){
 }
 
 function calculate(button,memory){
-                let calc = getMathOperation(button.textContent,memory);                
+                let calc = getMathOperation(button.textContent,memory);  
+                if(!Number.isInteger(calc))
+                    calc = Number.parseFloat(calc).toFixed(DISPLAY_LENGTH - 2);
                 calcScreen.clearScreen();                
                 calcScreen.appendCharacter(calc);
                 memory.clearMemory();
