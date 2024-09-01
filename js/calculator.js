@@ -1,11 +1,13 @@
 //https://devmentor.pl/b/4-filary-programowania-obiektowego#powt%C3%B3rka-z-programowania-obiektowego
 
+const DISPLAY_LENGTH = 12;
 
 function Display(querySelector){
 
     this.screen = document.querySelector(querySelector);
     this.appendCharacter = function(char){
-        if(this.screen.textContent[0] === "0")
+        if(this.screen.textContent[0] === "0" && char != "."
+            && this.screen.textContent.length === 1)
             this.screen.textContent = "";
         if(this.isEmptySpace() && this.isNumber(char))
             this.screen.textContent += char;        
@@ -18,7 +20,7 @@ function Display(querySelector){
     }  
 
     this.isEmptySpace = function() {  
-        return this.screen.textContent.length < 13
+        return this.screen.textContent.length < DISPLAY_LENGTH
     }
 
     this.isContainDot = function() {
@@ -32,24 +34,30 @@ function Display(querySelector){
     this.getNumberFromScreen = function()  {
         return Number.parseFloat(this.screen.textContent);
     }
+
+    
 }
 
 class Memory {
 
     #memory;
     #size;
+    #isSaved;
 
     constructor(size) {
         this.#memory = [];
         this.#size = size;
+        this.#isSaved = false;
     }
 
     saveInMemory(number){
         this.#memory.push(number);
+        this.#isSaved = true;
     }
 
     clearMemory(){
         this.#memory.length = 0;
+        this.#isSaved = false;
     }
 
     doCalc(mathOperation){
@@ -60,65 +68,70 @@ class Memory {
         return this.#memory.length === this.#size;
     }
 
-    print(){
-        console.log(this.#memory.toString());
-        console.log(this.#memory.length === this.#size);
+    isSaved(){
+        return this.#isSaved;
     }
 
+    setIsSaved(boolean){
+        this.#isSaved = boolean;
+    }
 }
 
 
-let wasSaved = false;
 
 function Keypad(numsQuerySelector,clearBtnQuerySelector){
     this.numberButtons = document.querySelectorAll(".num_value");
     this.operandButtons = document.querySelectorAll(".operand_button");
     this.clearButton = document.querySelector(".clr_button");
     this.equationButton = document.querySelector(".equation_button");  
+    this.negateNumberButton = document.querySelector("#negate_button");
     this.initializeButtonsEvents = function(){
+
+        this.negateNumberButton.addEventListener("click",event =>{
+            
+        });
+
         this.clearButton.addEventListener("click",event =>{
             calcScreen.clearScreen();
             memory.clearMemory();
         });
         this.numberButtons.forEach((button) => 
             button.addEventListener("click",(e) => {
-            if(wasSaved){
+            if(memory.isSaved()){
                 calcScreen.clearScreen();
-                wasSaved = false;
+                memory.setIsSaved(false);
             }
             calcScreen.appendCharacter(e.target.textContent);
         }));
 
         this.operandButtons.forEach((button) => 
             button.addEventListener("click",event =>{                     
-            memory.saveInMemory(calcScreen.getNumberFromScreen());            
-            memory.print();
-            console.log(button.textContent);
+            memory.saveInMemory(calcScreen.getNumberFromScreen());                        
             if(memory.isFull){
-                let calc = calculate(button.textContent,memory);                
-                calcScreen.clearScreen();                
-                calcScreen.appendCharacter(calc);
-                memory.clearMemory();
-                memory.saveInMemory(calcScreen.getNumberFromScreen());                
-            }
-            wasSaved = true;
+                calculate(button,memory);
+            }          
             }));
 
-        this.equationButton.addEventListener("click",event =>{
-            
+        this.equationButton.addEventListener("click",event =>{            
         });
     };
 
 
 }
 
+function calculate(button,memory){
+                let calc = getMathOperation(button.textContent,memory);                
+                calcScreen.clearScreen();                
+                calcScreen.appendCharacter(calc);
+                memory.clearMemory();
+                memory.saveInMemory(calcScreen.getNumberFromScreen()); 
+}
 
-
-function calculate(operator,memory){
+function getMathOperation(operator,memory){
 
     switch(operator) {
 
-        case "+": return memory.doCalc((a,b) => a+b,0);
+        case "+": return memory.doCalc((a,b) => a + b,0);
         case "-": return memory.doCalc((a,b) => a - b,0);
         case "*": return memory.doCalc((a,b) => a * b,1);
         case "/": return memory.doCalc((a,b) => a / b,1);
